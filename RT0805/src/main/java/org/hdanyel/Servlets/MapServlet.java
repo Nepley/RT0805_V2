@@ -7,15 +7,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
 import javax.servlet.RequestDispatcher;
 
-@WebServlet(value="/index", name="homeServlet")
-public class HomeServlet extends HttpServlet {
+@WebServlet(value="/map/*", name="mapServlet")
+public class MapServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        RequestDispatcher r1 = req.getRequestDispatcher("index.jsp");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
+    {
+        int id_u = int.valueOf(pathInfo.substring(1));
+        int id_sport = int.valueOf(pathInfo.substring(2));
+        RequestDispatcher r1 = req.getRequestDispatcher("map.jsp");
         r1.include(req, resp);
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
