@@ -1,0 +1,26 @@
+{"sports": [
+    {
+        "id" : 1,
+        "nom" : "Jogging"
+    },
+    {
+        "id" : 2,
+        "nom" : "Velo"
+    },
+    {
+        "id" : 3,
+        "nom" : "Ski"
+    },
+    {
+        "id" : 4,
+        "nom" : "Roller"
+    },
+    {
+        "id" : 5,
+        "nom" : "Trotinette"
+    },
+    {
+        "id" : 6,
+        "nom" : "Marche"
+    }
+ ]}

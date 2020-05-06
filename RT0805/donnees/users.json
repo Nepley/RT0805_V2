@@ -1,0 +1,37 @@
+{"users": [
+   {
+      "mdp": "test",
+      "id": "1",
+      "login": "Nep"
+   },
+   {
+      "mdp": "test2",
+      "id": "2",
+      "login": "Kururin"
+   },
+   {
+      "mdp": "test",
+      "id": "3",
+      "login": "test"
+   },
+   {
+      "mdp": "douze",
+      "id": "4",
+      "login": "Ehoui"
+   },
+   {
+      "mdp": "Nep",
+      "id": "5",
+      "login": "Nepping"
+   },
+   {
+      "mdp": "eldano",
+      "id": "6",
+      "login": "Dandan"
+   },
+   {
+      "mdp": "nep",
+      "id": "7",
+      "login": "Luciano"
+   }
+]}

@@ -1,0 +1,15 @@
+* Faire le terminal
+* Faire le serveur REST
+* Faire le système de connexion
+* Faire le côté visualisteur
+* Faire l'insertion des activités sportives
+
+REST:
+POST /users/cookie -> Token
+POST /users -> Inscription
+POST /sports -> création sport 
+PUT /sports/id > MAJ sport
+
+visualisateur:
+GET /sports/id_utilisateur -> Collecte de toutes les activités d'un utilisateur
+GET /sports/id_utilisateur/id -> Inspection d'une activité d'un utilisateur
