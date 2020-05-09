@@ -1,9 +1,9 @@
-package org.hdanyel.Classes;
+package org.hdanyel.commun;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import org.hdanyel.Classes.JSONConfig;
+import org.hdanyel.commun.JSONConfig;
 
 public class GestionUsers {
 

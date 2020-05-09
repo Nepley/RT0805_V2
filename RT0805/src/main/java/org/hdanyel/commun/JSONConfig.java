@@ -1,4 +1,4 @@
-package org.hdanyel.Classes;
+package org.hdanyel.commun;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,7 +139,7 @@ public class JSONConfig
      */
     public static String MaxId(JSONArray json)
     {
-    	int id = 1;
+    	int id = 0;
 		if(json.length() != 0)
 		{
 			for(int i =0; i < json.length(); i++)

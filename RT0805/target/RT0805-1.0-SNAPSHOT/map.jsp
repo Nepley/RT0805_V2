@@ -14,6 +14,7 @@
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     id: 'mapbox.streets'
                 }).addTo(maCarte);
+                
             var marker1 = L.marker([49.26224, 4.052293]).addTo(maCarte);
             var marker2 = L.marker([69.26223999999999, -25.947707]).addTo(maCarte);
             var polygon = L.polygon([[49.26224, 4.052293], [69.26223999999999, -25.947707]]).addTo(maCarte);
@@ -22,6 +23,5 @@
             marker2.bindPopup("<b>Essai</b><br/>Une autre station");
             
         </script>
-        <p>Nep : { act.Date_debut }</p>
     </body>
 <%@ include file="footer.jsp"%> 

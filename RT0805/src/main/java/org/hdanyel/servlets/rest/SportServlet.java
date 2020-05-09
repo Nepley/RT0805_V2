@@ -15,9 +15,9 @@ import javax.servlet.RequestDispatcher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.hdanyel.Classes.JSONConfig;
-import org.hdanyel.Classes.GestionUsers;
-import org.hdanyel.Classes.GestionJWT;
+import org.hdanyel.commun.JSONConfig;
+import org.hdanyel.commun.GestionUsers;
+import org.hdanyel.commun.GestionJWT;
 
 @WebServlet(value="/sports", name="sportServlet")
 public class SportServlet extends HttpServlet {
@@ -42,6 +42,7 @@ public class SportServlet extends HttpServlet {
         //On réassigne manuellement chaque champ à la nouvelle activité plutôt que de reprendre le JSON envoyé
         //De cette façon, on est sûr que le JSON est conforme
         JSONObject new_sport = new JSONObject();
+        new_sport.put("id", JSONConfig.MaxId(activites.getJSON().getJSONArray("sports")));
         new_sport.put("id_u", id_u);
         new_sport.put("debut", requete.getString("debut"));
         new_sport.put("fin", requete.getString("fin"));

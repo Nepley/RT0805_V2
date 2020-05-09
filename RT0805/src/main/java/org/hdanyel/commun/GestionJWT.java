@@ -1,4 +1,4 @@
-package org.hdanyel.Classes;
+package org.hdanyel.commun;
 
 import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;

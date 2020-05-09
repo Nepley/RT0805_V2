@@ -1,16 +1,38 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-        <title>Portail du tracking sportif</title>
-    </head>
-        <body>
-            Merci de vous authentifier :
-            <form name="f" method="GET" action="auth">
-                <input type="text" name="login"/>
-                <input type="text" name="mdp"/>
-                <input type="submit"/>
-            </form>
-        </body>
-</html>
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="Accueil" />
+</jsp:include>
+    <body>
+
+        <div class="bloc-prim">
+            
+            <h1>Bienvenue sur le portail du tracking sportif</h1>
+            Veuillez choisir une méthode pour vous authentifier :
+            <div class="row">
+                <div id="connexion" class="card form-group formulaires">
+                    <h5 class="card-title">Vous avez déjà un compte ? Connectez vous</h5>
+                    <form name="f" method="POST" action="visu/auth">
+                        <label for="login">Votre login :</label>
+                        <input type="hidden" name="purpose" value="login"/>
+                        <input class="form-control" id="login" type="text" name="login"/>
+                        <label for="mdp">Votre mot de passe :</label>
+                        <input class="form-control" id="mdp" type="password" name="mdp"/>
+                        <input type="submit"/>
+                    </form>
+                </div>
+                <div id="inscription" class="card form-group formulaires">
+                    <h5 class="card-title">Pas de compte ? Inscrivez vous :</h5>
+                    <form name="f" method="POST" action="visu/auth">
+                        <label for="login">Votre login :</label>
+                        <input type="hidden" name="purpose" value="inscription"/>
+                        <input class="form-control" id="login" type="text" name="login"/>
+                        <label for="mdp">Votre mot de passe :</label>
+                        <input class="form-control" id="mdp" type="password" name="mdp"/>
+                        <label for="mdp2">Veuillez confirmer votre mot de passe :</label>
+                        <input class="form-control" id="mdp2" type="password" name="mdp2"/>
+                        <input type="submit"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+<%@ include file="footer.jsp"%>

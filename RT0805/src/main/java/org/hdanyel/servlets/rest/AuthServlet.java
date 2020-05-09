@@ -12,7 +12,7 @@ import javax.servlet.RequestDispatcher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.hdanyel.Classes.*;
+import org.hdanyel.commun.GestionUsers;
 
 @WebServlet(value="/users", name="authServlet")
 public class AuthServlet extends HttpServlet {

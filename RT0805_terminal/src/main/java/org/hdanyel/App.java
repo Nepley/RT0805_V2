@@ -179,9 +179,9 @@ public class App {
 			for(int i =1; i<11; i++)
 			{
 				System.out.println("Point numéro" + i);
-				Thread.sleep(20000);
-				x += 20;
-				y -= 30;
+				Thread.sleep(1000);
+				x += 0.001;
+				y -= 0.002;
 				aujourdhui = new Date();
 				JSONObject coord_temp = new JSONObject();
 				coord_temp.put("coord_x", x);

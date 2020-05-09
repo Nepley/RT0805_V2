@@ -14,9 +14,9 @@ import javax.servlet.RequestDispatcher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.hdanyel.Classes.JSONConfig;
-import org.hdanyel.Classes.GestionUsers;
-import org.hdanyel.Classes.GestionJWT;
+import org.hdanyel.commun.JSONConfig;
+import org.hdanyel.commun.GestionUsers;
+import org.hdanyel.commun.GestionJWT;
 
 @WebServlet(value="/users/cookie", name="authCookieServlet")
 public class AuthCookieServlet extends HttpServlet {
