@@ -1,4 +1,4 @@
-package org.hdanyel.Servlets;
+package org.hdanyel.servlets.visu;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,4 +1,4 @@
-package org.hdanyel.Servlets;
+package org.hdanyel.servlets.visu;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,8 +18,8 @@ public class MapServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
-        int id_u = int.valueOf(pathInfo.substring(1));
-        int id_sport = int.valueOf(pathInfo.substring(2));
+        /*int id_u = int.valueOf(pathInfo.substring(1));
+        int id_sport = int.valueOf(pathInfo.substring(2));*/
         RequestDispatcher r1 = req.getRequestDispatcher("map.jsp");
         r1.include(req, resp);
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");

@@ -2,17 +2,18 @@
     <jsp:param name="title" value="Accueil" />
 </jsp:include>
     <body>
-        <div class="bg-image"></div>
-        <div class="bloc-prim">
-            <div id="connexion" class="form-group formulaires">
-                Merci de vous authentifier :
+        <div class="bloc-prim row">
+            <h1>Bienvenue sur le portail du tracking sportif</h1>
+            Veuillez choisir une méthode pour vous authentifier :
+            <div id="connexion" class="card form-group formulaires">
+                <h5 class="card-title">Vous avez déjà un compte ? Connectez vous</h5>
                 <form name="f" method="GET" action="auth">
                     <input class="form-control" type="text" name="login"/>
                     <input class="form-control" type="password" name="mdp"/>
                     <input type="submit"/>
                 </form>
             </div>
-            <div id="inscription" class="form-group formulaires">
+            <div id="inscription" class="card form-group formulaires">
                 Pas de compte ? Inscrivez vous :
                 <form name="f" method="GET" action="auth">
                     <input class="form-control" type="text" name="login"/>
