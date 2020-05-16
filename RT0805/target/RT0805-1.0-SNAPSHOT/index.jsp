@@ -7,6 +7,14 @@
             
             <h1>Bienvenue sur le portail du tracking sportif</h1>
             Veuillez choisir une méthode pour vous authentifier :
+            <c:if test="${user.login=='oui'}">
+                Bonjour ${user.login}
+            </c:if>
+            <c:forEach var="i" begin="2" end="15">
+                <c:if test="${i % 2 == 0}">
+                    <p> <c:out value="${i}"" />  est pair </p>
+                </c:if>
+            </c:forEach>
             <div class="row">
                 <div id="connexion" class="card form-group formulaires">
                     <h5 class="card-title">Vous avez déjà un compte ? Connectez vous</h5>

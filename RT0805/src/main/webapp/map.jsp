@@ -4,8 +4,23 @@
     <body>
         <div id="mapid" style="width: 100%; height: 600px;"></div>
         <script>
-        
-            var maCarte = L.map('mapid').setView([48.8489, 2.3092], 11);
+
+            function CreateMarker(Coord)
+            {
+                var marker1 = L.marker([Coord["coord_x"], Coord["coord_y"]]).addTo(maCarte);
+                marker1.bindPopup("<b>".concat(Coord["heure"], "</b>"));
+            }
+
+            function connectTheDots(data)
+            {
+                size = data.length;
+                for (i = 0; i < size-1; i++)
+                {
+                    var polygon = L.polygon([[data[i]["coord_x"], data[i]["coord_y"]], [data[i+1]["coord_x"], data[i+1]["coord_y"]]]).addTo(maCarte);
+                }
+            }
+            arrayPts = ${act.pts};
+            var maCarte = L.map('mapid').setView([arrayPts[0]["coord_x"], arrayPts[0]["coord_y"]], 15);
 
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
                 maxZoom: 18,
@@ -14,14 +29,17 @@
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     id: 'mapbox.streets'
                 }).addTo(maCarte);
-            var marker1 = L.marker([49.26224, 4.052293]).addTo(maCarte);
-            var marker2 = L.marker([69.26223999999999, -25.947707]).addTo(maCarte);
-            var polygon = L.polygon([[49.26224, 4.052293], [69.26223999999999, -25.947707]]).addTo(maCarte);
+            //var marker1 = L.marker([49.26224, 4.052293]).addTo(maCarte);
+            //var marker2 = L.marker([69.26223999999999, -25.947707]).addTo(maCarte);
+
             
-            marker1.bindPopup("<b>Essai</b><br/>Une station");
-            marker2.bindPopup("<b>Essai</b><br/>Une autre station");
+            arrayPts.forEach(CreateMarker);
+
+            pathCoords = connectTheDots(arrayPts);
+            //var polygon = L.polygon([[49.26224, 4.052293], [69.26223999999999, -25.947707]]).addTo(maCarte);
             
+           
         </script>
-        <p>Nep : { act.Date_debut }</p>
+
     </body>
 <%@ include file="footer.jsp"%> 

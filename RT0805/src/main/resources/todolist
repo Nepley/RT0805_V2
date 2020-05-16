@@ -14,6 +14,6 @@ PUT /sports/id > MAJ sport
 visualisateur:
 GET / -> Page de login et d'inscription
 POST /visu/auth -> verif login et inscription
-GET /visu/sports/id_utilisateur -> Collecte de toutes les activités d'un utilisateur
-GET /visu/sports/id_utilisateur/id -> Inspection d'une activité d'un utilisateur
-GET /visu/sports/id_utilisateur/stats -> Statistique d'un utilisateur
+GET /visu/sports/ -> Collecte de toutes les activités d'un utilisateur
+GET /visu/sports/id -> Inspection d'une activité d'un utilisateur
+GET /visu/sports/stats -> Statistique d'un utilisateur

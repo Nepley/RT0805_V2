@@ -1,4 +1,4 @@
-package org.hdanyel.servlets.visu;
+/*package org.hdanyel.servlets.visu;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,24 +14,18 @@ import org.hdanyel.Beans.Utilisateur;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
-@WebServlet(value="/index", name="homeServlet")
-public class HomeServlet extends HttpServlet {
+@WebServlet(urlPatterns="/style/*", name="redirectServlet")
+public class RedirectStyle extends HttpServlet {
 
     private ServletContext servletContext;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        HttpSession sess = req.getSession();
-        Utilisateur user = new Utilisateur();
-        user.setId( (String) sess.getAttribute("id"));
-        user.setLogin( (String) sess.getAttribute("login"));
-
-        req.setAttribute("user", user);
-
-        RequestDispatcher r1 = req.getRequestDispatcher("index.jsp");
-        r1.include(req, resp);
+        String pathInfo = req.getPathInfo();
+        String fichier = pathInfo.substring(1);
+        resp.sendRedirect("/css/"+fichier); 
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
 
 }
+*/

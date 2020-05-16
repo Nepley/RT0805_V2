@@ -181,7 +181,7 @@ public class App {
 				System.out.println("Point numéro" + i);
 				Thread.sleep(1000);
 				x += 0.001;
-				y -= 0.002;
+				y -= 0.001;
 				aujourdhui = new Date();
 				JSONObject coord_temp = new JSONObject();
 				coord_temp.put("coord_x", x);

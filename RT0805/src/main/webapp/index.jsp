@@ -1,12 +1,20 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Accueil" />
 </jsp:include>
+
     <body>
 
         <div class="bloc-prim">
             
             <h1>Bienvenue sur le portail du tracking sportif</h1>
-            Veuillez choisir une méthode pour vous authentifier :
+            <c:if test="${empty user.id}">
+                Veuillez choisir une méthode pour vous authentifier :
+            </c:if>
+            <c:if test="${not empty user.id}">
+                Bonjour ${user.login}
+            </c:if>
+
             <div class="row">
                 <div id="connexion" class="card form-group formulaires">
                     <h5 class="card-title">Vous avez déjà un compte ? Connectez vous</h5>

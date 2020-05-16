@@ -31,16 +31,21 @@ public class VisuAuthServlet extends HttpServlet {
             id = GestionUsers.connexionUtilisateur(login, mdp);
             if(id > 0)
             {
+                System.out.println("Connexion réussie.");
                 HttpSession sess = req.getSession(true);
                 sess.setAttribute("login", login);
-                sess.setAttribute("id", id);
+                sess.setAttribute("id", Integer.toString(id));
+                resp.sendRedirect("/index");  
             }   
             else     
-                resp.sendRedirect("/index?error=-2");     
+            {
+                System.out.println("Connexion échouée.");
+                resp.sendRedirect("/index?error=-2");  
+            }   
         }
         else if(purpose.equals("inscription"))
         {
-            System.out.println("C'est une demande d'inscr");
+            System.out.println("C'est une demande d'inscription");
             String mdp2 = (String) req.getParameter("mdp2");
             if(mdp.equals(mdp2))
                 id = GestionUsers.inscriptionUtilisateur(login, mdp);                
