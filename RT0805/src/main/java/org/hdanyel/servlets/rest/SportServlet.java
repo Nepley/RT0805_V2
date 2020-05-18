@@ -44,6 +44,7 @@ public class SportServlet extends HttpServlet {
         JSONObject new_sport = new JSONObject();
         new_sport.put("id", JSONConfig.MaxId(activites.getJSON().getJSONArray("sports")));
         new_sport.put("id_u", id_u);
+        new_sport.put("date", requete.getString("date"));
         new_sport.put("debut", requete.getString("debut"));
         new_sport.put("fin", requete.getString("fin"));
         new_sport.put("id_sport", requete.getInt("id_sport"));

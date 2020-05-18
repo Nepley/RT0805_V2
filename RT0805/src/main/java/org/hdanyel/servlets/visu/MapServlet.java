@@ -7,8 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Activite;
+import org.hdanyel.Beans.Utilisateur;
 import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,24 +29,18 @@ public class MapServlet extends HttpServlet {
         int id_activite = Integer.parseInt(pathInfo.substring(3));
         int id_sport = 0;
         String id_activite = "2";*/
-        String id_u = "";
-        String login = "Nep";
+        //String id_u = "";
+        //String login = "Nep";
+
+        HttpSession sess = req.getSession();
+        Utilisateur user = new Utilisateur();
+        user.setId( (String) sess.getAttribute("id"));
+
+        req.setAttribute("user", user);
+
         String id_activite = pathInfo.substring(1);
         JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
-        JSONConfig users = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/users.json");
 
-        JSONArray json_users = users.getJSON().getJSONArray("users");
-        if(json_users.length() != 0)
-		{
-			for(int i =0; i < json_users.length(); i++)
-			{
-				JSONObject temp = new JSONObject(json_users.get(i).toString());
-				if(temp.getString("login").equals(login))
-				{
-					id_u = temp.getString("id");
-				}
-			}
-		}
 
         JSONArray json_activites = activites.getJSON().getJSONArray("sports");
         Activite act = new Activite();
@@ -53,11 +49,9 @@ public class MapServlet extends HttpServlet {
 			for(int i =0; i < json_activites.length(); i++)
 			{
 				JSONObject temp = new JSONObject(json_activites.get(i).toString());
-                System.out.println("id et id comparé :" + temp.getString("id") +"," + id_activite);
-                System.out.println("id_u et id_u comparé :" + temp.getString("id_u") +"," + id_u);
-				if(temp.getString("id").equals(id_activite) && temp.getString("id_u").equals(id_u))
+				if(temp.getString("id").equals(id_activite) && temp.getString("id_u").equals(user.getId()))
 				{
-                    act.setId_u(id_u);
+                    act.setId_u(user.getId());
                     act.setId_s(temp.getInt("id_sport"));
                     act.setId_activite(id_activite);
                     act.setDate_debut(temp.getString("debut"));
@@ -66,10 +60,6 @@ public class MapServlet extends HttpServlet {
 				}
 			}
 		}
-
-
-        System.out.println("activite :");
-        System.out.println(act.getDate_debut());
 
         req.setAttribute("act", act);
 

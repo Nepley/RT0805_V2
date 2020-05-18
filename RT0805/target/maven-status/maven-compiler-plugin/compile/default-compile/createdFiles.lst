@@ -1,11 +1,12 @@
 org/hdanyel/servlets/visu/MapServlet.class
-org/hdanyel/servlets/visu/HomeServlet.class
-org/hdanyel/servlets/rest/SportServlet.class
+org/hdanyel/servlets/visu/VisuSportServlet.class
 org/hdanyel/Beans/Activite.class
 org/hdanyel/servlets/visu/VisuAuthServlet.class
-org/hdanyel/servlets/rest/AuthServlet.class
-org/hdanyel/servlets/rest/AuthCookieServlet.class
 org/hdanyel/commun/GestionJWT.class
 org/hdanyel/Beans/Utilisateur.class
 org/hdanyel/commun/GestionUsers.class
 org/hdanyel/commun/JSONConfig.class
+org/hdanyel/servlets/visu/HomeServlet.class
+org/hdanyel/servlets/rest/SportServlet.class
+org/hdanyel/servlets/rest/AuthServlet.class
+org/hdanyel/servlets/rest/AuthCookieServlet.class

@@ -62,7 +62,7 @@ public class JSONConfig
     }
     
     /**
-     * Retourne la valeur associ�e � une clef.
+     * Retourne la valeur associée à une clef.
      * @param clef le nom de la clef
      * @return la valeur de la clef
      */
@@ -229,7 +229,7 @@ public class JSONConfig
             System.exit(-1);
         }
          
-        // R�cup�ration de la cha�ne JSON depuis le fichier
+        // Récupération de la chaine JSON depuis le fichier
         String json = new String();
         Scanner scanner = new Scanner(fs);
         while(scanner.hasNext())
@@ -260,10 +260,10 @@ public class JSONConfig
         
         /**
          * Sauvegarder le fichier JSON dans le fichier dont le nom
-         * correspond � l'attribut 'nomFichier'.
+         * correspond à l'attribut 'nomFichier'.
          */
     	
-    	//Si le dossier dans lequel va �tre cr�� le fichier n'existe pas, on le cr��
+    	//Si le dossier dans lequel va être créé le fichier n'existe pas, on le créé
 		String temp[] = nomFichier.split("/");
 		String dossier = "";
 		for(int i=0; i< temp.length-1; i++)

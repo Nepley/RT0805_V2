@@ -135,7 +135,8 @@ public class App {
 	private static int Course(String jwt) throws InterruptedException
 	{
 		Date aujourdhui = new Date();
-		SimpleDateFormat formater = new SimpleDateFormat("hh:mm");
+		SimpleDateFormat formater_heure = new SimpleDateFormat("hh:mm");
+		SimpleDateFormat formater_date = new SimpleDateFormat("dd/MM/yyyy");
 		JSONObject reponse = new JSONObject();
 		JSONArray data_coord = new JSONArray();
 		JSONObject data_activite = new JSONObject();
@@ -148,8 +149,6 @@ public class App {
 		//Récuperation des sports
 		reponse = ClientHttp.sendData(data, "ListeSport");
 	
-		System.out.println("On a la liste des sports");
-
 		JSONArray sports = reponse.getJSONArray("sports");
 		System.out.println("Que voulez-vous faire ?");
 		for(int i = 1; i < sports.length()+1; i++)
@@ -164,15 +163,18 @@ public class App {
 
 		if (choix >= 0 && choix <= sports.length())
 		{
-			data_activite.put("id_sport", choix);
+			data_activite.put("id_sport", choix+1);
 			data_activite.put("jwt", jwt);
-			data_activite.put("debut", formater.format(aujourdhui));
+			data_activite.put("debut", formater_heure.format(aujourdhui));
+			data_activite.put("date", formater_date.format(aujourdhui));
 		
 			Double x = 49.262240;
 			Double y = 4.052293;
+			double rand_x = Math.random();
+			double rand_y = Math.random();
 			coord.put("coord_x", x);
 			coord.put("coord_y", y);
-			coord.put("heure", formater.format(aujourdhui));
+			coord.put("heure", formater_heure.format(aujourdhui));
 			data_coord.put(coord);
 
 			System.out.println("Génération des points...");
@@ -180,20 +182,39 @@ public class App {
 			{
 				System.out.println("Point numéro" + i);
 				Thread.sleep(1000);
-				x += 0.001;
-				y -= 0.001;
+				//x += 0.001;
+				//y -= 0.001;
+				
+				if(rand_x < 0.5)
+				{
+					x = x + Math.random()*0.001;
+				}
+				else
+				{
+					x = x - Math.random()*0.001;
+				}
+				
+				if(rand_y < 0.5)
+				{
+					y = y + Math.random()*0.001;
+				}
+				else
+				{
+					y = y - Math.random()*0.001;
+				}
+				
 				aujourdhui = new Date();
 				JSONObject coord_temp = new JSONObject();
 				coord_temp.put("coord_x", x);
 				coord_temp.put("coord_y", y);
-				coord_temp.put("heure", formater.format(aujourdhui));
+				coord_temp.put("heure", formater_heure.format(aujourdhui));
 				data_coord.put(coord_temp);
 			}
 			Thread.sleep(5);
 			System.out.println(("Activité finie, envoi.."));
 			data_activite.put("pts", data_coord);
 			aujourdhui = new Date();
-			data_activite.put("fin", formater.format(aujourdhui));
+			data_activite.put("fin", formater_heure.format(aujourdhui));
 			reponse = ClientHttp.sendData(data_activite, "Activite");
 			System.out.println(("Envoyé !"));
 			scanner.close();

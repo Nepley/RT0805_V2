@@ -7,20 +7,17 @@
 
             function CreateMarker(Coord)
             {
-                console.table(Coord);
                 var marker1 = L.marker([Coord["coord_x"], Coord["coord_y"]]).addTo(maCarte);
                 marker1.bindPopup("<b>".concat(Coord["heure"], "</b>"));
             }
 
             function connectTheDots(data)
             {
-                var c = [];
-                for(i in data._layers) {
-                    var x = data._layers[i]._latlng.lat;
-                    var y = data._layers[i]._latlng.lng;
-                    c.push([x, y]);
+                size = data.length;
+                for (i = 0; i < size-1; i++)
+                {
+                    var polygon = L.polygon([[data[i]["coord_x"], data[i]["coord_y"]], [data[i+1]["coord_x"], data[i+1]["coord_y"]]]).addTo(maCarte);
                 }
-                return c;
             }
             arrayPts = ${act.pts};
             var maCarte = L.map('mapid').setView([arrayPts[0]["coord_x"], arrayPts[0]["coord_y"]], 15);
@@ -38,8 +35,7 @@
             
             arrayPts.forEach(CreateMarker);
 
-            pathCoords = connectTheDots(window.geojson);
-            var pathLine = L.polyline(pathCoords).addTo(maCarte)
+            pathCoords = connectTheDots(arrayPts);
             //var polygon = L.polygon([[49.26224, 4.052293], [69.26223999999999, -25.947707]]).addTo(maCarte);
             
            

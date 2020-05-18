@@ -2,6 +2,7 @@
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/VisuAuthServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/rest/SportServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/Beans/Activite.java
+/home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/VisuSportServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/commun/JSONConfig.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/Beans/Utilisateur.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/HomeServlet.java
