@@ -10,26 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.commun.GestionUsers;
+import org.json.JSONArray;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
-@WebServlet(value="/index", name="homeServlet")
-public class HomeServlet extends HttpServlet {
+@WebServlet(value="/visu/admin/users", name="adminGestionUsers")
+public class AdminGestionUsers extends HttpServlet {
 
     private ServletContext servletContext;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     
-        HttpSession sess = req.getSession();
+        HttpSession sess = req.getSession(false);
         Utilisateur user = new Utilisateur();
         user.setId( (String) sess.getAttribute("id"));
         user.setLogin( (String) sess.getAttribute("login"));
         user.setType( (String) sess.getAttribute("type"));
-        req.setAttribute("user", user);
+        if(sess != null && user.getType() == "1")
+        {
+            req.setAttribute("user", user);
+        }
+        else
+            resp.sendRedirect("/index");
 
-        RequestDispatcher r1 = req.getRequestDispatcher("index.jsp");
+        JSONArray liste_users = GestionUsers.listeUsers();
+        req.setAttribute("liste_users", liste_users);
+
+        RequestDispatcher r1 = req.getRequestDispatcher("/admin_users.jsp");
         r1.include(req, resp);
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }

@@ -35,6 +35,7 @@ public class VisuAuthServlet extends HttpServlet {
                 HttpSession sess = req.getSession(true);
                 sess.setAttribute("login", login);
                 sess.setAttribute("id", Integer.toString(id));
+                sess.setAttribute("type", Integer.toString(GestionUsers.typeUser(id)));
                 resp.sendRedirect("/index");  
             }   
             else     
@@ -60,4 +61,10 @@ public class VisuAuthServlet extends HttpServlet {
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession sess = req.getSession();
+        sess.invalidate();
+        resp.sendRedirect("/index");    
+    }
 }

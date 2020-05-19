@@ -4,11 +4,13 @@ public class Utilisateur
 {
     private String login;
     private String id;
+    private String type;
 
     public Utilisateur()
     {
         this.login = "temp";
         this.id = "0";
+        this.type = "0";
     }
 
     public String getLogin() 
@@ -29,5 +31,15 @@ public class Utilisateur
     public void setId(String id) 
     {
         this.id = id;
+    }
+    
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
     }
 }

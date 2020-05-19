@@ -2,8 +2,32 @@
     <jsp:param name="title" value="Bienvenue sur la map" />
 </jsp:include>
     <body>
-        <div id="mapid" style="width: 100%; height: 600px;"></div>
+        <div id="infos">
+            Date de début : ${act.date_debut}
+            <br>
+            Date de fin : ${act.date_fin}
+            <br>
+            <p id="km"></p>
+        </div>
+        <div id="mapid"></div>
         <script>
+
+           
+            function distanceInKm(lat1, lon1, lat2, lon2) 
+            {
+                var earthRadiusKm = 6371;
+                
+                var dLat = (lat2-lat1) * Math.PI / 180;
+                var dLon = (lon2-lon1) * Math.PI / 180;
+                
+                lat1 = lat1 * Math.PI / 180;
+                lat2 = lat2 * Math.PI / 180;
+                
+                var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                return earthRadiusKm * c;
+            }
 
             function CreateMarker(Coord)
             {
@@ -29,15 +53,18 @@
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     id: 'mapbox.streets'
                 }).addTo(maCarte);
-            //var marker1 = L.marker([49.26224, 4.052293]).addTo(maCarte);
-            //var marker2 = L.marker([69.26223999999999, -25.947707]).addTo(maCarte);
-
             
             arrayPts.forEach(CreateMarker);
 
             pathCoords = connectTheDots(arrayPts);
-            //var polygon = L.polygon([[49.26224, 4.052293], [69.26223999999999, -25.947707]]).addTo(maCarte);
-            
+
+            var distance = 0;
+            for (i = 0; i < arrayPts.length-1; i++)
+            {
+               distance += distanceInKm(arrayPts[i]["coord_x"], arrayPts[i]["coord_y"], arrayPts[i+1]["coord_x"], arrayPts[i+1]["coord_y"]);
+            }
+
+            document.getElementById("km").innerHTML = "Distance parcouru : " + distance.toPrecision(3) + " Km";
            
         </script>
 

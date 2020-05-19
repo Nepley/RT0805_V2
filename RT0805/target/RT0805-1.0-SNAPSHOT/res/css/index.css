@@ -57,3 +57,19 @@ form input
     text-align: center;
     background-color: #bdc3c7;
 }
+
+#mapid
+{
+    width: 80%;
+    height: 100%;
+}
+
+#infos
+{
+    width : 20%;
+    height : 100%;
+    float : left;
+    padding : 10px;
+    background-color: #fbf8f8;
+    border-right : 5px solid #16a085;
+}

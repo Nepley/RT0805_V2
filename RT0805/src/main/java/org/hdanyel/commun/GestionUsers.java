@@ -3,6 +3,8 @@ package org.hdanyel.commun;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import java.security.MessageDigest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hdanyel.commun.JSONConfig;
 
 public class GestionUsers {
@@ -35,7 +37,7 @@ public class GestionUsers {
             if(retour != 0)
             {
                 new_user.put("login", login);
-                new_user.put("mdp", password);
+                new_user.put("mdp", HashMdp(password));
                 new_user.put("id", JSONConfig.MaxId(users.getJSON().getJSONArray("users")));
                 users.ajouterJSON("users", new_user);
                 users.sauvegarder();
@@ -62,7 +64,7 @@ public class GestionUsers {
                 for(int i =0; i < tableau.length(); i++)
                 {
                     JSONObject temp = new JSONObject(tableau.get(i).toString());
-                    if(temp.getString("login").equals(login) && temp.getString("mdp").equals(password))
+                    if(temp.getString("login").equals(login) && temp.getString("mdp").equals(HashMdp(password)))
                     {
                         retour = Integer.parseInt(temp.getString("id"));
                     }
@@ -74,29 +76,41 @@ public class GestionUsers {
         return retour;
 	}
 
-    /*public String HashMdp(String mdp)
-    {
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(mdp.getBytes());
-            byte[] digest = md.digest();
 
-            //Conversion des octets en format hexadécimal
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< digest.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            //Get complete hashed password in hex format
-            generatedPassword = sb.toString();
-        } 
-        catch (NoSuchAlgorithmException e) 
+    public static JSONArray listeUsers()
+    {
+        JSONObject users = new JSONConfig(file_users).getJSON();
+        JSONArray tableau = users.getJSONArray("users");
+
+        return tableau;
+    }
+
+    public static int typeUser(int id)
+    {
+        int retour = 0;
+
+        JSONObject users = new JSONConfig(file_users).getJSON();
+        JSONArray tableau = users.getJSONArray("users");
+        if(tableau.length() != 0)
         {
-            e.printStackTrace();
+            for(int i =0; i < tableau.length(); i++)
+            {
+                JSONObject temp = new JSONObject(tableau.get(i).toString());
+                if(temp.getString("id").equals(Integer.toString(id)))
+                {
+                    retour = Integer.parseInt(temp.getString("type"));
+                }
+            }
+
         }
 
+        return retour;
+    }
+
+    public static String HashMdp(String mdp)
+    {
+        String mdp_hash = DigestUtils.md5Hex(mdp);
         return mdp_hash;
-    }*/
+    }
 
 }

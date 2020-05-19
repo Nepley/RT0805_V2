@@ -2,6 +2,7 @@ package org.hdanyel;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 import java.lang.Thread;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -32,10 +34,10 @@ public class App {
 	public static JSONObject Connection()
 	{
 		String login = "";
-		String mdp = "";
 		JSONObject data = new JSONObject();
 		JSONObject reponse = new JSONObject();
 		Scanner scanner = new Scanner(System.in);
+		Console console = System.console();
 
 		System.out.println("Quel est votre identifiant ?");
 		while((login += scanner.nextLine()).equals("")) //On empèche une entrée vide
@@ -45,10 +47,8 @@ public class App {
 		data.put("login", login);
 
 		System.out.println("Et quel est votre mot de passe ?");
-		while((mdp += scanner.nextLine()).equals("")) //On empèche une entrée vide
-		{
-			mdp = "";
-		}
+		char[] motdepasse = console.readPassword();
+		String mdp = new String(motdepasse);
 		
 		data.put("mdp", mdp);
 		reponse = ClientHttp.sendData(data, "login");
@@ -63,6 +63,7 @@ public class App {
 		JSONObject data = new JSONObject();
 		JSONObject reponse = new JSONObject();
 		Scanner scanner = new Scanner(System.in);
+		Console console = System.console();
 
 		System.out.println("Très bien, quel est votre identifiant ?");
 		while((login += scanner.nextLine()).equals("")) //On empèche une entrée vide
@@ -74,17 +75,12 @@ public class App {
 		while(!mdp.equals(mdp_v))
 		{
 			System.out.println("Quel est votre mot de passe ?");
-			mdp = "";
-			while((mdp += scanner.nextLine()).equals("")) //On empèche une entrée vide
-			{
-				mdp = "";
-			}
+			char[] motdepasse = console.readPassword();
+			mdp = new String(motdepasse);
+
 			System.out.println("Retapez votre mot de passe :");
-			mdp_v = "";
-			while((mdp_v += scanner.nextLine()).equals("")) //On empèche une entrée vide
-			{
-				mdp_v = "";
-			}
+			char[] motdepasse_v = console.readPassword();
+			mdp_v = new String(motdepasse_v);
 
 			if(!mdp.equals(mdp_v))
 			{
@@ -112,13 +108,27 @@ public class App {
         {
         	//A chaque fois, on constitue la requ�te HTTP
         	case 1:// Cas de la connexion
-        		reponse = Connection();
+				reponse = Connection();
+				while(reponse.get("status").toString().equals("error"))
+        		{
+					System.out.println("Mauvais idientifiant/mot de passe, veuillez recommencer.");
+					reponse = Connection();
+				}
         		break;
         	case 2: // Cas de l'inscription
 				reponse = Inscription();
 				if(reponse.get("status").toString().equals("OK"))
         		{
 					reponse = Connection();
+					while(reponse.get("status").toString().equals("error"))
+					{
+						System.out.println("Mauvais idientifiant/mot de passe, veuillez recommencer.");
+						reponse = Connection();
+					}
+				}	
+				else
+				{
+					System.out.println("Une erreur s'est produite lors de votre inscription.");
 				}
         		break;
         	default:
@@ -135,6 +145,7 @@ public class App {
 	private static int Course(String jwt) throws InterruptedException
 	{
 		Date aujourdhui = new Date();
+		int nbpoint = 0;
 		SimpleDateFormat formater_heure = new SimpleDateFormat("hh:mm");
 		SimpleDateFormat formater_date = new SimpleDateFormat("dd/MM/yyyy");
 		JSONObject reponse = new JSONObject();
@@ -177,8 +188,14 @@ public class App {
 			coord.put("heure", formater_heure.format(aujourdhui));
 			data_coord.put(coord);
 
+			System.out.println("Combien de point voulez-vous générer ?");
+			while(nbpoint <= 0)
+			{
+				nbpoint = scanner.nextInt();
+			}
+
 			System.out.println("Génération des points...");
-			for(int i =1; i<11; i++)
+			for(int i =1; i<nbpoint+1; i++)
 			{
 				System.out.println("Point numéro" + i);
 				Thread.sleep(1000);

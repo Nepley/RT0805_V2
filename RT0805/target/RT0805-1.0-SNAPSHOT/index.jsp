@@ -57,14 +57,14 @@
                         <img src="/res/img/stats.png" class="card-img-top">
                         <div class="card-body">
                           <h5 class="card-title">Voir mes stats</h5>
-                          <a href="visu/profil" class="btn btn-primary">➔</a>
+                          <a href="visu/stats" class="btn btn-primary">➔</a>
                         </div>
                     </div>
                     <div class="card blocs" style="width: 18rem;">
-                        <img src="/res/img/profil.jpg" class="card-img-top">
+                        <img src="/res/img/activites.jpg" class="card-img-top">
                         <div class="card-body">
-                          <h5 class="card-title">Gérer mon profil</h5>
-                          <a href="visu/profil" class="btn btn-primary">➔</a>
+                          <h5 class="card-title">Voir ma dernière course</h5>
+                          <a href="/" class="btn btn-primary">➔</a>
                         </div>
                     </div>
                 </div>

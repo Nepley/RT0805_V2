@@ -15,19 +15,25 @@
         <title>Portail - ${param.title}</title>
     </head>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand">${param.title}</a>
+        <a class="navbar-brand  mb-0 h1">${param.title}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/index">Home <span class="sr-only">(current)</span></a>
+          <ul class="navbar-nav mr-auto">  
+          <li><a class="nav-item nav-link active" href="/index">Home <span class="sr-only">(current)</span></a></li>
             <c:if test="${not empty user.id}">
-              <a class="nav-item nav-link active" href="/visu/sports">Mes activités</a>
+              <li><a class="nav-item nav-link active" href="/visu/sports">Mes activités</a></li>
             </c:if>
-            <!--
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-          </div>
+            <c:if test="${user.type == '1'}">
+              <li><a class="nav-item nav-link active" href="/visu/admin/users">Gestion des utilisateurs</a></li>
+            </c:if>
+          </ul>
+          <c:if test="${not empty user.id}">
+            <form action="/visu/auth" method="get">
+              <input type="hidden" value="deconnect" />
+              <input type="submit" class="btn btn-danger" value="Se déconnecter"/>
+            </form>
+          </c:if>
         </div>
       </nav>

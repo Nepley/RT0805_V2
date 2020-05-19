@@ -2,6 +2,11 @@
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Liste des sports" />
 </jsp:include>
+
+<c:if test="${empty liste_activite}">
+    <c:redirect url="/index"/>
+</c:if>
+
 <body>
     <div class="bloc-prim">
         <h1>Toutes vos activités</h1><br/><br/><hr/>
