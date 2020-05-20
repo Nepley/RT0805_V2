@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.commun.GestionUsers;
+import org.hdanyel.commun.JSONConfig;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -22,16 +26,38 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     
-        HttpSession sess = req.getSession();
-        Utilisateur user = new Utilisateur();
-        user.setId( (String) sess.getAttribute("id"));
-        user.setLogin( (String) sess.getAttribute("login"));
-        user.setType( (String) sess.getAttribute("type"));
-        req.setAttribute("user", user);
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
 
+        JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
+        JSONArray json_activites = activites.getJSON().getJSONArray("sports");
+
+        int MaxId = 0;
+
+        if(user != null)
+        {
+            if(json_activites.length() != 0)
+            {
+                for(int i =0; i < json_activites.length(); i++)
+                {
+                    JSONObject temp = new JSONObject(json_activites.get(i).toString());
+                    if(temp.getString("id_u").equals(user.getId()) && Integer.parseInt(temp.getString("id")) > MaxId)
+                    {
+                        MaxId = Integer.parseInt(temp.getString("id"));
+                    }
+                }
+            }
+        }
+
+        req.setAttribute("maxid", MaxId);
+
+        resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("index.jsp");
         r1.include(req, resp);
-        //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
 
 }

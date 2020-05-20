@@ -1,6 +1,12 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Bienvenue sur la map" />
 </jsp:include>
+
+<c:if test="${empty auth}">
+    <c:redirect url="/index"/>
+</c:if>
+
     <body>
         <div id="infos">
             Date de début : ${act.date_debut}

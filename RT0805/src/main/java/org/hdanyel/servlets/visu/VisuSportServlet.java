@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Activite;
 import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.commun.GestionUsers;
 import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,16 +21,32 @@ import javax.servlet.RequestDispatcher;
 @WebServlet(urlPatterns = "/visu/sports", name = "VisuSportServlet")
 public class VisuSportServlet extends HttpServlet
 {
+    private double Distance(double lat1, double lon1, double lat2, double lon2) 
+    {
+        int earthRadiusKm = 6371;
+                
+        double dLat = (lat2-lat1) * Math.PI / 180;
+        double dLon = (lon2-lon1) * Math.PI / 180;
+        
+        lat1 = lat1 * Math.PI / 180;
+        lat2 = lat2 * Math.PI / 180;
+        
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        return earthRadiusKm * c;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
-        String pathInfo = req.getPathInfo();
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            System.out.println(("user pas null"));
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
 
-        HttpSession sess = req.getSession();
-        Utilisateur user = new Utilisateur();
-        user.setId( (String) sess.getAttribute("id"));
-
-        req.setAttribute("user", user);
 
         JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
         JSONConfig sports = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/sports.json");
@@ -37,6 +54,13 @@ public class VisuSportServlet extends HttpServlet
         JSONArray json_activites = activites.getJSON().getJSONArray("sports");
         JSONArray json_sports = sports.getJSON().getJSONArray("sports");
         JSONArray liste_activite = new JSONArray();
+        JSONObject stats = new JSONObject();
+
+        int nb_activite = 0;
+        int activite_plus_distance = -1;
+        double distance_totale = 0;
+        double distance_plus_grande = 0;
+
         if(json_activites.length() != 0)
 		{
 			for(int i =0; i < json_activites.length(); i++)
@@ -60,13 +84,36 @@ public class VisuSportServlet extends HttpServlet
                     act.put("Heure", temp.getString("debut"));
                     act.put("Date", temp.getString("date"));
                     liste_activite.put(act);
+                    
+                    //Stats 
+                    nb_activite += 1;
+
+                    double dist = 0;
+                    JSONArray points = temp.getJSONArray("pts");
+                    
+                    System.out.println("Nb point : "+points.length());
+                    for( int k = 0; k < points.length()-1; k++)
+                    {
+                        dist += Distance(points.getJSONObject(k).getDouble("coord_x"), points.getJSONObject(k).getDouble("coord_y"),points.getJSONObject(k+1).getDouble("coord_x"), points.getJSONObject(k+1).getDouble("coord_y"));
+                    }
+                    distance_totale += dist;
+
+                    if(distance_plus_grande < dist)
+                    {
+                        distance_plus_grande = dist;
+                        activite_plus_distance = temp.getInt("id");
+                    }
 				}
-			}
-		}
+            }
+            stats.put("Nb_activite", nb_activite);
+            stats.put("Activite_plus_distance", activite_plus_distance);
+            stats.put("Distance_totale", distance_totale);
+        }
 
         req.setAttribute("liste_activite", liste_activite);
-        System.out.println(liste_activite);
+        req.setAttribute("stats", stats);
 
+        resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("/sport.jsp");
         r1.include(req, resp);
     }

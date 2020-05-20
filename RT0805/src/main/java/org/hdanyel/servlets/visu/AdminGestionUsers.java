@@ -24,12 +24,14 @@ public class AdminGestionUsers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     
-        HttpSession sess = req.getSession(false);
-        Utilisateur user = new Utilisateur();
-        user.setId( (String) sess.getAttribute("id"));
-        user.setLogin( (String) sess.getAttribute("login"));
-        user.setType( (String) sess.getAttribute("type"));
-        if(sess != null && user.getType() == "1")
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
+
+        if(user.getType().equals("1"))
         {
             req.setAttribute("user", user);
         }
@@ -39,6 +41,7 @@ public class AdminGestionUsers extends HttpServlet {
         JSONArray liste_users = GestionUsers.listeUsers();
         req.setAttribute("liste_users", liste_users);
 
+        resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("/admin_users.jsp");
         r1.include(req, resp);
         //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");

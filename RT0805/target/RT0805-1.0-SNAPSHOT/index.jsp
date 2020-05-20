@@ -1,10 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Accueil" />
 </jsp:include>
 
-    <body>
+<c:if test="${empty auth}">
+    <c:redirect url="/index"/>
+</c:if>
 
+
+    <body>
         <div class="bloc-prim">
             
             <h1>Bienvenue sur le portail du tracking sportif</h1>
@@ -53,20 +58,24 @@
                           <a href="visu/sports" class="btn btn-primary">➔</a>
                         </div>
                     </div>
-                    <div class="card blocs" style="width: 18rem;">
-                        <img src="/res/img/stats.png" class="card-img-top">
-                        <div class="card-body">
-                          <h5 class="card-title">Voir mes stats</h5>
-                          <a href="visu/stats" class="btn btn-primary">➔</a>
+                    <c:if test="${user.type == '1'}">
+                        <div class="card blocs" style="width: 18rem;">
+                            <img src="/res/img/profil.jpg" class="card-img-top">
+                            <div class="card-body">
+                            <h5 class="card-title">Gérer les utilisateurs</h5>
+                            <a href="/visu/admin/users" class="btn btn-primary">➔</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card blocs" style="width: 18rem;">
-                        <img src="/res/img/activites.jpg" class="card-img-top">
-                        <div class="card-body">
-                          <h5 class="card-title">Voir ma dernière course</h5>
-                          <a href="/" class="btn btn-primary">➔</a>
+                    </c:if>
+                    <c:if test="${maxid != 0}">
+                        <div class="card blocs" style="width: 18rem;">
+                            <img src="/res/img/activites.jpg" class="card-img-top">
+                            <div class="card-body">
+                            <h5 class="card-title">Voir ma dernière course</h5>
+                            <a href="/visu/sports/${maxid}" class="btn btn-primary">➔</a>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
             </c:if>
         </div>

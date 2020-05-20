@@ -74,13 +74,21 @@ public class App {
 		
 		while(!mdp.equals(mdp_v))
 		{
-			System.out.println("Quel est votre mot de passe ?");
-			char[] motdepasse = console.readPassword();
-			mdp = new String(motdepasse);
-
-			System.out.println("Retapez votre mot de passe :");
-			char[] motdepasse_v = console.readPassword();
-			mdp_v = new String(motdepasse_v);
+			mdp = "";
+			while(mdp.equals(""))
+			{
+				System.out.println("Quel est votre mot de passe ?");
+				char[] motdepasse = console.readPassword();
+				mdp = new String(motdepasse);
+			}
+			
+			mdp_v = "";
+			while(mdp_v.equals(""))
+			{
+				System.out.println("Retapez votre mot de passe :");
+				char[] motdepasse_v = console.readPassword();
+				mdp_v = new String(motdepasse_v);
+			}
 
 			if(!mdp.equals(mdp_v))
 			{
@@ -111,7 +119,7 @@ public class App {
 				reponse = Connection();
 				while(reponse.get("status").toString().equals("error"))
         		{
-					System.out.println("Mauvais idientifiant/mot de passe, veuillez recommencer.");
+					System.out.println("Mauvais identifiant/mot de passe, veuillez recommencer.");
 					reponse = Connection();
 				}
         		break;
@@ -219,7 +227,7 @@ public class App {
 				{
 					y = y - Math.random()*0.001;
 				}
-				
+
 				aujourdhui = new Date();
 				JSONObject coord_temp = new JSONObject();
 				coord_temp.put("coord_x", x);

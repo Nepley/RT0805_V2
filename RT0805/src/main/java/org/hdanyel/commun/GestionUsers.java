@@ -4,7 +4,12 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.security.MessageDigest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hdanyel.Beans.Utilisateur;
 import org.hdanyel.commun.JSONConfig;
 
 public class GestionUsers {
@@ -38,6 +43,7 @@ public class GestionUsers {
             {
                 new_user.put("login", login);
                 new_user.put("mdp", HashMdp(password));
+                new_user.put("type", "2");
                 new_user.put("id", JSONConfig.MaxId(users.getJSON().getJSONArray("users")));
                 users.ajouterJSON("users", new_user);
                 users.sauvegarder();
@@ -113,4 +119,19 @@ public class GestionUsers {
         return mdp_hash;
     }
 
+    public static Utilisateur SessionUser(HttpServletRequest req)
+    {
+        HttpSession sess = req.getSession(false);
+        Utilisateur user = null;
+        if(sess != null)
+        {
+            System.out.println("x");
+            user = new Utilisateur();
+            user.setId( (String) sess.getAttribute("id"));
+            user.setLogin( (String) sess.getAttribute("login"));
+            user.setType( (String) sess.getAttribute("type"));
+        }
+
+        return user;
+    }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Activite;
 import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.commun.GestionUsers;
 import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,19 +25,13 @@ public class MapServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
         String pathInfo = req.getPathInfo();
-        /*String login = pathInfo.substring(1);
-        int id_sport = Integer.parseInt(pathInfo.substring(2));
-        int id_activite = Integer.parseInt(pathInfo.substring(3));
-        int id_sport = 0;
-        String id_activite = "2";*/
-        //String id_u = "";
-        //String login = "Nep";
 
-        HttpSession sess = req.getSession();
-        Utilisateur user = new Utilisateur();
-        user.setId( (String) sess.getAttribute("id"));
-
-        req.setAttribute("user", user);
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
 
         String id_activite = pathInfo.substring(1);
         JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
@@ -63,8 +58,8 @@ public class MapServlet extends HttpServlet {
 
         req.setAttribute("act", act);
 
+        resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("/map.jsp");
         r1.include(req, resp);
-        //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
 }
