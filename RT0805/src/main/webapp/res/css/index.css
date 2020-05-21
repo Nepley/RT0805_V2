@@ -26,6 +26,12 @@ footer
     background-color: black;
 }
 
+.dunoir
+{
+    background-color:#34495e;
+    color : white;
+}
+
 .bloc-prim
 {
     font-size: 16px;

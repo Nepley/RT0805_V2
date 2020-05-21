@@ -121,11 +121,12 @@ public class GestionUsers {
 
     public static Utilisateur SessionUser(HttpServletRequest req)
     {
-        HttpSession sess = req.getSession(false);
+        HttpSession sess = req.getSession();
         Utilisateur user = null;
-        if(sess != null)
+
+        //L'utilisateur s'est connecté
+        if(sess.getAttribute("id") != null)
         {
-            System.out.println("x");
             user = new Utilisateur();
             user.setId( (String) sess.getAttribute("id"));
             user.setLogin( (String) sess.getAttribute("login"));

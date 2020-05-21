@@ -53,7 +53,41 @@ public class HomeServlet extends HttpServlet {
             }
         }
 
+        JSONObject mess = null;
+        //Gestion des erreurs et des succès
+        String message = req.getParameter("error");
+        if(message != null)
+        {
+            mess = new JSONObject();
+            mess.put("mess", "error");
+            switch(message)
+            {
+                case "-1":
+                    mess.put("text" ,"Le premier mot de passe n'est pas égal au second.");
+                    break;
+                case "-2":
+                    mess.put("text" ,"Erreur de connexion, réessayez.");
+                    break;
+                default:
+                    mess.put("text" ,"Erreur.");
+                    break;
+            }
+            req.setAttribute("message", mess);
+        }
+
+        message = req.getParameter("success");
+        if(message != null)
+        {
+            mess = new JSONObject();
+            mess.put("mess", "success");
+            mess.put("text", "Inscription réussie, essayez de vous connecter !");
+            req.setAttribute("message", mess);
+        }
+
         req.setAttribute("maxid", MaxId);
+
+        //On indique à la JSP qu'on est bien passé par la Servlet
+        req.setAttribute("servlet", true);
 
         resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("index.jsp");

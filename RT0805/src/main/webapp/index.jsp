@@ -4,14 +4,12 @@
     <jsp:param name="title" value="Accueil" />
 </jsp:include>
 
-<c:if test="${empty auth}">
+<c:if test="${empty servlet}">
     <c:redirect url="/index"/>
 </c:if>
 
-
     <body>
         <div class="bloc-prim">
-            
             <h1>Bienvenue sur le portail du tracking sportif</h1>
             <c:if test="${empty user.id}">
                 Veuillez choisir une méthode pour vous authentifier :
@@ -76,6 +74,18 @@
                             </div>
                         </div>
                     </c:if>
+                </div>
+            </c:if>
+
+            <c:if test="${message.getString('mess').equals('error')}">
+                <div id="confirmation" class="alert alert-danger" role="alert">
+                    ${message.getString("text")}
+                </div>
+            </c:if>
+                
+            <c:if test="${message.getString('mess').equals('success')}">
+                <div id="confirmation" class="alert alert-success" role="alert">
+                    ${message.getString("text")}
                 </div>
             </c:if>
         </div>

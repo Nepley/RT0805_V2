@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Bienvenue sur la map" />
 </jsp:include>
 
 <c:if test="${empty auth}">
-    <c:redirect url="/index"/>
+    <c:redirect url="/index" />
 </c:if>
 
     <body>
@@ -14,6 +15,13 @@
             Date de fin : ${act.date_fin}
             <br>
             <p id="km"></p>
+            <br>
+            <br>
+            <br>
+            <form method="POST" action="/visu/sports">
+                <input value="${act.id_activite}" type="hidden" name="id_sport"/>
+                <button class="btn btn-danger">Supprimer</button>
+            </form>
         </div>
         <div id="mapid"></div>
         <script>

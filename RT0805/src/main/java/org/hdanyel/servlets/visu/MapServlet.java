@@ -32,6 +32,8 @@ public class MapServlet extends HttpServlet {
             req.setAttribute("user", user);
             req.setAttribute("auth", true);
         }
+        else
+            resp.sendRedirect("/index");
 
         String id_activite = pathInfo.substring(1);
         JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");

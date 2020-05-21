@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import javax.servlet.RequestDispatcher;
 
@@ -36,18 +37,8 @@ public class VisuSportServlet extends HttpServlet
         return earthRadiusKm * c;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
+    private HttpServletRequest lister_activites(HttpServletRequest req, Utilisateur user)
     {
-        Utilisateur user = GestionUsers.SessionUser(req);
-        if(user != null)
-        {
-            System.out.println(("user pas null"));
-            req.setAttribute("user", user);
-            req.setAttribute("auth", true);
-        }
-
-
         JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
         JSONConfig sports = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/sports.json");
 
@@ -91,7 +82,6 @@ public class VisuSportServlet extends HttpServlet
                     double dist = 0;
                     JSONArray points = temp.getJSONArray("pts");
                     
-                    System.out.println("Nb point : "+points.length());
                     for( int k = 0; k < points.length()-1; k++)
                     {
                         dist += Distance(points.getJSONObject(k).getDouble("coord_x"), points.getJSONObject(k).getDouble("coord_y"),points.getJSONObject(k+1).getDouble("coord_x"), points.getJSONObject(k+1).getDouble("coord_y"));
@@ -105,16 +95,78 @@ public class VisuSportServlet extends HttpServlet
                     }
 				}
             }
+            DecimalFormat df = new DecimalFormat("0.##");
             stats.put("Nb_activite", nb_activite);
             stats.put("Activite_plus_distance", activite_plus_distance);
-            stats.put("Distance_totale", distance_totale);
+            stats.put("Distance_totale", df.format(distance_totale));
         }
 
         req.setAttribute("liste_activite", liste_activite);
         req.setAttribute("stats", stats);
 
+        return req;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
+    {
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
+        else
+            resp.sendRedirect("/index");
+
+        req = lister_activites(req, user);
+
         resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("/sport.jsp");
         r1.include(req, resp);
     }
+
+    //On traite les cas où on supprime une activité
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+ 
+        Utilisateur user = GestionUsers.SessionUser(req);
+        if(user != null)
+        {
+            req.setAttribute("user", user);
+            req.setAttribute("auth", true);
+        }
+        else
+            resp.sendRedirect("/index");
+
+        String id = req.getParameter("id_sport");
+        JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
+        JSONArray json_activites = activites.getJSON().getJSONArray("sports");
+
+        resp.setStatus(401);
+
+        if(user != null)
+        {
+            for(int i = 0; i < json_activites.length(); i++)
+            {
+                JSONObject temp = new JSONObject(json_activites.get(i).toString());
+                if(temp.getString("id").equals(id))
+                {
+                    if(temp.getString("id_u").equals(user.getId()))
+                    {
+                        activites.supprimerDansTab("sports", id);
+                        activites.sauvegarder();
+                        resp.setStatus(200);
+                    }
+                }
+            }
+        }
+        
+        req = lister_activites(req, user);
+
+        resp.setContentType("text/html; charset=UTF-8");
+        RequestDispatcher r1 = req.getRequestDispatcher("/sport.jsp");
+        r1.include(req, resp);
+     }
+ 
 }

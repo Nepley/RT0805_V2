@@ -196,6 +196,30 @@ public class JSONConfig
     }
     
     /*
+     * Supprime un des élements d'un tableau
+     * @param nomTab s'il y'a, le nom de la clé du tableau
+     * @param id l'id de la chose à supprimer
+     */
+    public void supprimerDansTab(String nomTab, String id)
+    {
+        int index = 0;
+        JSONArray json = f_json.getJSONArray(nomTab);
+        if(json.length() != 0)
+		{
+			for(int i =0; i < json.length(); i++)
+			{
+				JSONObject temp = new JSONObject(json.get(i).toString());
+				if(temp.getString("id").equals(id))
+				{
+					index = i;
+				}
+			}
+		}
+    	f_json.getJSONArray(nomTab).remove(index);
+    }
+    
+
+    /*
      * Remplace un des élèments d'un tableau JSON
      * @param nomTab s'il y'a, le nom de la clé du tableau
      * @param JSON le JSON qui doit remplacer l'ancien

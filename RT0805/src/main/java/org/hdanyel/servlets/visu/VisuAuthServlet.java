@@ -59,10 +59,7 @@ public class VisuAuthServlet extends HttpServlet {
                 resp.sendRedirect("/index?success");    
         }
         else
-            resp.sendRedirect("/index");
-
-        //r1.forward(req, resp);
-        //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
+            resp.sendRedirect("/index?error=-3"); 
     }
 
     @Override

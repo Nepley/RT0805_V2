@@ -11,7 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import org.hdanyel.Beans.Utilisateur;
 import org.hdanyel.commun.GestionUsers;
+import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -27,16 +29,17 @@ public class AdminGestionUsers extends HttpServlet {
         Utilisateur user = GestionUsers.SessionUser(req);
         if(user != null)
         {
-            req.setAttribute("user", user);
-            req.setAttribute("auth", true);
-        }
-
-        if(user.getType().equals("1"))
-        {
-            req.setAttribute("user", user);
+            if(user.getType().equals("1"))
+            {
+                req.setAttribute("user", user);
+                req.setAttribute("auth", true);
+            }
+            else
+                resp.sendRedirect("/index");
         }
         else
             resp.sendRedirect("/index");
+
 
         JSONArray liste_users = GestionUsers.listeUsers();
         req.setAttribute("liste_users", liste_users);
@@ -44,7 +47,32 @@ public class AdminGestionUsers extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
         RequestDispatcher r1 = req.getRequestDispatcher("/admin_users.jsp");
         r1.include(req, resp);
-        //RequestDispatcher r1 = request.getRequestDispatcher("incluse.html");
     }
 
+    //On traite les cas où on supprime un utilisateur
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Utilisateur user = GestionUsers.SessionUser(req);
+        String id = req.getParameter("id");
+
+        if(user != null)
+        {
+            if(user.getType().equals("1"))
+            {
+                JSONConfig users = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/users.json");
+                users.supprimerDansTab("users", id);
+                users.sauvegarder();
+                resp.setStatus(200);
+            }
+            else
+                resp.setStatus(401);
+        }
+        else
+            resp.setStatus(401);
+    }
+
+    
+
 }
+
