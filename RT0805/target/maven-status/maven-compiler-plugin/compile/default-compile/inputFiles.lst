@@ -1,12 +1,12 @@
+/home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/beans/Activite.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/commun/GestionUsers.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/VisuAuthServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/rest/SportServlet.java
-/home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/Beans/Activite.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/VisuSportServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/commun/JSONConfig.java
-/home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/Beans/Utilisateur.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/HomeServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/commun/GestionJWT.java
+/home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/beans/Utilisateur.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/MapServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/rest/AuthCookieServlet.java
 /home/user1/Bureau/projet_java/RT0805/src/main/java/org/hdanyel/servlets/visu/AdminGestionUsers.java

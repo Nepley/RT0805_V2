@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<jsp:include page="header.jsp">
+<jsp:include page="WEB-INF/jsp/header.jsp">
     <jsp:param name="title" value="Accueil" />
 </jsp:include>
 
@@ -90,5 +90,5 @@
             </c:if>
         </div>
     </body>
-<%@ include file="footer.jsp"%>
+<%@ include file="WEB-INF/jsp/footer.jsp"%>
 

@@ -37,7 +37,7 @@ public class SportServlet extends HttpServlet {
         String id_u = token.getClaim("id").asString();
         String user = token.getClaim("login").asString();
 
-        JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
+        JSONConfig activites = new JSONConfig("donnees/activites.json");
 
         //On réassigne manuellement chaque champ à la nouvelle activité plutôt que de reprendre le JSON envoyé
         //De cette façon, on est sûr que le JSON est conforme
@@ -63,7 +63,7 @@ public class SportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Demande de la liste des sports.");
-        JSONObject sports = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/sports.json").getJSON();
+        JSONObject sports = new JSONConfig("donnees/sports.json").getJSON();
         resp.getWriter().println(sports.toString());
         System.out.println("Liste des sports envoyée");
     }

@@ -10,7 +10,7 @@
 <body>
     <div class="bloc-prim">
         <h1>Toutes vos activités</h1>
-        <c:if test="${liste_activite.length() > 1}">
+        <c:if test="${liste_activite.length() >= 1}">
             <ul class="list-group">
                 <li class="list-group-item active">Cliquez sur une activité</li>
                 <c:forEach var="i" begin="0" end="${liste_activite.length() -1}">

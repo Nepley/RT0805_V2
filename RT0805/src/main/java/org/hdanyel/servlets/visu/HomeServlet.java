@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.beans.Utilisateur;
 import org.hdanyel.commun.GestionUsers;
 import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
@@ -21,11 +21,10 @@ import javax.servlet.ServletContext;
 @WebServlet(value="/index", name="homeServlet")
 public class HomeServlet extends HttpServlet {
 
-    private ServletContext servletContext;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     
+        //On met en place la session, si l'utilisateur s'est connecté on le met en attribut.
         Utilisateur user = GestionUsers.SessionUser(req);
         if(user != null)
         {
@@ -33,17 +32,20 @@ public class HomeServlet extends HttpServlet {
             req.setAttribute("auth", true);
         }
 
-        JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
+        //Récupération des activités dans leur globalité
+        JSONConfig activites = new JSONConfig("donnees/activites.json");
         JSONArray json_activites = activites.getJSON().getJSONArray("sports");
 
         int MaxId = 0;
 
+        //Parcours du JSON des activités
         if(user != null)
         {
             if(json_activites.length() != 0)
             {
                 for(int i =0; i < json_activites.length(); i++)
                 {
+                    //On récupère la dernière activité de l'utilisateur, qui sera affichée sur la page Web
                     JSONObject temp = new JSONObject(json_activites.get(i).toString());
                     if(temp.getString("id_u").equals(user.getId()) && Integer.parseInt(temp.getString("id")) > MaxId)
                     {
@@ -69,7 +71,7 @@ public class HomeServlet extends HttpServlet {
                     mess.put("text" ,"Erreur de connexion, réessayez.");
                     break;
                 default:
-                    mess.put("text" ,"Erreur.");
+                    mess.put("text" ,"Erreur : Le pseudo est déjà pris.");
                     break;
             }
             req.setAttribute("message", mess);

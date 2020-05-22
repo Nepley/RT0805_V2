@@ -14,23 +14,32 @@ import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 
+/**
+ * Servlet utilisée pour les demandes de connexion, d'inscription et de déconnexion
+ */
 @WebServlet(value="/visu/auth", name="visuAuthServlet")
 public class VisuAuthServlet extends HttpServlet {
 
+    //Demande de connexion ou d'inscription
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
         System.out.println("Demande reçue sur /visu/auth");
+
+        //Un paramètre purpose est dédié pour savoir si l'utilisateur se connecte ou s'inscris
         String purpose = (String) req.getParameter("purpose");
         String login = (String) req.getParameter("login");
         String mdp = (String) req.getParameter("mdp");
         int id = 0;
+
+        //Connexion
         if(purpose.equals("login"))
         {
             System.out.println("C'est une demande de login");
             id = GestionUsers.connexionUtilisateur(login, mdp);
             if(id > 0)
             {
+                //On créé la session si la connexion est réussie
                 System.out.println("Connexion réussie.");
                 HttpSession sess = req.getSession(true);
                 sess.setAttribute("login", login);
@@ -40,11 +49,12 @@ public class VisuAuthServlet extends HttpServlet {
             }
             else     
             {
+                //On redirige si la connexion échoue
                 System.out.println("Connexion échouée.");
                 resp.sendRedirect("/index?error=-2");  
             }   
         }
-        else if(purpose.equals("inscription"))
+        else if(purpose.equals("inscription")) //inscription
         {
             System.out.println("C'est une demande d'inscription");
             String mdp2 = (String) req.getParameter("mdp2");
@@ -62,6 +72,7 @@ public class VisuAuthServlet extends HttpServlet {
             resp.sendRedirect("/index?error=-3"); 
     }
 
+    //Pour les demandes de déconnexion, on invalide et on redirige
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession sess = req.getSession();

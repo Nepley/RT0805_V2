@@ -1,4 +1,4 @@
-package org.hdanyel.Beans;
+package org.hdanyel.beans;
 
 import org.json.JSONArray;
 

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hdanyel.Beans.Activite;
-import org.hdanyel.Beans.Utilisateur;
+import org.hdanyel.beans.Activite;
+import org.hdanyel.beans.Utilisateur;
 import org.hdanyel.commun.GestionUsers;
 import org.hdanyel.commun.JSONConfig;
 import org.json.JSONArray;
@@ -24,8 +24,7 @@ public class MapServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
-        String pathInfo = req.getPathInfo();
-
+        //On met en place la session, si l'utilisateur s'est connecté on le met en attribut sinon on redirige vers l'index.
         Utilisateur user = GestionUsers.SessionUser(req);
         if(user != null)
         {
@@ -35,19 +34,25 @@ public class MapServlet extends HttpServlet {
         else
             resp.sendRedirect("/index");
 
+        //On récupère l'id de l'activité à partir de l'url
+        String pathInfo = req.getPathInfo();
         String id_activite = pathInfo.substring(1);
-        JSONConfig activites = new JSONConfig("/home/user1/Bureau/projet_java/RT0805/donnees/activites.json");
 
-
+        //Récuperation du JSON
+        JSONConfig activites = new JSONConfig("donnees/activites.json");
         JSONArray json_activites = activites.getJSON().getJSONArray("sports");
+
         Activite act = new Activite();
+
         if(json_activites.length() != 0)
 		{
+            // On cherche l'activité que l'utilsateur veut afficher parmi toute les activité à partir de l'id
 			for(int i =0; i < json_activites.length(); i++)
 			{
 				JSONObject temp = new JSONObject(json_activites.get(i).toString());
 				if(temp.getString("id").equals(id_activite) && temp.getString("id_u").equals(user.getId()))
 				{
+                    // Lorsque l'activité est trouvé, on prend toutes les informations qui nous intéressent
                     act.setId_u(user.getId());
                     act.setId_s(temp.getInt("id_sport"));
                     act.setId_activite(id_activite);
@@ -58,10 +63,11 @@ public class MapServlet extends HttpServlet {
 			}
 		}
 
+        //On le transmet au jsp
         req.setAttribute("act", act);
 
         resp.setContentType("text/html; charset=UTF-8");
-        RequestDispatcher r1 = req.getRequestDispatcher("/map.jsp");
+        RequestDispatcher r1 = req.getRequestDispatcher("/WEB-INF/jsp/map.jsp");
         r1.include(req, resp);
     }
 }

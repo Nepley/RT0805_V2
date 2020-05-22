@@ -26,11 +26,19 @@ import org.json.JSONObject;
 public class App {
 
 	public static void main(String[] args) throws InterruptedException {
-		String jwt = connexionUtilisateur();
+		String jwt = null;
+		// La connexion ne peut s'arrêter que si l'utilisateur est connecté
+		while(jwt == null)
+			jwt = connexionUtilisateur();
+
 		System.out.println("Utilisateur connecté.");
-		int Au = Course(jwt);
+		Course(jwt);
 	}
 	
+	/**
+	 * Fonction gérant la partie connexion
+	 * @return Retourne la réponse donnée par le serveur
+	 */
 	public static JSONObject Connection()
 	{
 		String login = "";
@@ -40,11 +48,13 @@ public class App {
 		Console console = System.console();
 
 		System.out.println("Quel est votre identifiant ?");
-		while((login += scanner.nextLine()).equals("")) //On empèche une entrée vide
+		//On empêche une entrée vide
+		while((login += scanner.nextLine()).equals("")) 
 		{
 			login = "";
 		}
 		data.put("login", login);
+
 
 		System.out.println("Et quel est votre mot de passe ?");
 		char[] motdepasse = console.readPassword();
@@ -55,6 +65,10 @@ public class App {
 		return reponse;
 	}
 
+	/**
+	 * Fonction gérant la partie Inscription
+	 * @return Retourne la réponse donnée par le serveur
+	 */
 	public static JSONObject Inscription()
 	{
 		String login = "";
@@ -97,26 +111,27 @@ public class App {
 		}
 		data.put("mdp", mdp);
 		reponse = ClientHttp.sendData(data, "inscription");	
-		System.out.println("Vous êtes maintenat inscris ! Veuilez maintenant vous connecter : ");
 		return reponse;
 	}
-	/*
-	 * Gestion de la connexion d'un utilisateur
+	/**
+	 * Gère toute la première partie du terminal avec la connexion et l'inscription
+	 * @return Retourne un jeton qui est égal l'inscription s'est mal déroulée 
 	 */
 	private static String connexionUtilisateur()
 	{
 		String jwt = "";
 		JSONObject reponse = new JSONObject();
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Vous devez maintenant vous inscrire ou vous connecter afin de pouvoir commencer votre activité, que choisissez vous ?");
+		System.out.println("Veuillez vous inscrire ou vous connecter afin de pouvoir commencer votre activité, que choisissez vous ?");
 		System.out.println("1) Se connecter");
         System.out.println("2) S'inscrire");
     
         switch(scanner.nextInt())
         {
-        	//A chaque fois, on constitue la requ�te HTTP
+        	//A chaque fois, on constitue la requête HTTP
         	case 1:// Cas de la connexion
 				reponse = Connection();
+				//Si la connexion a échouée, on recommence
 				while(reponse.get("status").toString().equals("error"))
         		{
 					System.out.println("Mauvais identifiant/mot de passe, veuillez recommencer.");
@@ -125,9 +140,12 @@ public class App {
         		break;
         	case 2: // Cas de l'inscription
 				reponse = Inscription();
+				//Si l'inscription a réussi on passe sur la partie connexion
 				if(reponse.get("status").toString().equals("OK"))
         		{
+					System.out.println("Vous êtes maintenant inscrit ! Veuilez maintenant vous connecter : ");
 					reponse = Connection();
+					//Si la connexion à échoué, on recommence
 					while(reponse.get("status").toString().equals("error"))
 					{
 						System.out.println("Mauvais idientifiant/mot de passe, veuillez recommencer.");
@@ -136,21 +154,29 @@ public class App {
 				}	
 				else
 				{
-					System.out.println("Une erreur s'est produite lors de votre inscription.");
+					System.out.println("Cet identifiant est déjà pris.\n");
 				}
         		break;
         	default:
         		break;
         }
 
+		// SI la connexion à échoué, le jeton est égal à null
         if(reponse.get("status").toString().equals("OK"))
         {
         	jwt = reponse.getString("jwt");
-        }
+		}
+		else
+			jwt = null;
         return jwt;
 	}
 
-	private static int Course(String jwt) throws InterruptedException
+	/**
+	 * Gère la partie du terminal gérant ce que fait l'utilisateur après sa connexion
+	 * @param jwt Le jeton de l'utilisateur
+	 * @throws InterruptedException
+	*/
+	private static void Course(String jwt) throws InterruptedException
 	{
 		Date aujourdhui = new Date();
 		int nbpoint = 0;
@@ -165,21 +191,26 @@ public class App {
 
 		System.out.println("On fait la course");
 
-		//Récuperation des sports
+		//On récupère la liste des sports
 		reponse = ClientHttp.sendData(data, "ListeSport");
 	
 		JSONArray sports = reponse.getJSONArray("sports");
+		//L'utilisateur choisi l'activité qu'il veut faire parmi la liste des sports récupèrer sur le serveur
 		System.out.println("Que voulez-vous faire ?");
+
 		for(int i = 1; i < sports.length()+1; i++)
 		{
 			JSONObject sport = sports.getJSONObject(i-1);
 			System.out.println(i +") "+ sport.getString("nom"));
 		}
 		int choix = -1;
+
+		//On vérifie que le choix de l'utilisateur est correct
 		while(choix < 0 || choix > sports.length()) {
 			choix = scanner.nextInt()-1;
 		}
 
+		// Si le choix est correct, on commence la génération des données de l'activité
 		if (choix >= 0 && choix <= sports.length())
 		{
 			data_activite.put("id_sport", choix+1);
@@ -187,8 +218,10 @@ public class App {
 			data_activite.put("debut", formater_heure.format(aujourdhui));
 			data_activite.put("date", formater_date.format(aujourdhui));
 		
+			// Ici, le terminal commencera toujours au même endroit (à Reims), et se déplacera aléatoirement dans une direction et une vitesse
 			Double x = 49.262240;
 			Double y = 4.052293;
+			// La direction est défini aléatoirement dès le début et une seule fois pour éviter que la génération génère des point sans trop de sens
 			double rand_x = Math.random();
 			double rand_y = Math.random();
 			coord.put("coord_x", x);
@@ -196,7 +229,8 @@ public class App {
 			coord.put("heure", formater_heure.format(aujourdhui));
 			data_coord.put(coord);
 
-			System.out.println("Combien de point voulez-vous générer ?");
+			//L'utilisateur choisi la durée de son activité, les points sont générés toute les secondes pour les tests
+			System.out.println("Combien de points voulez-vous générer ?");
 			while(nbpoint <= 0)
 			{
 				nbpoint = scanner.nextInt();
@@ -210,6 +244,7 @@ public class App {
 				//x += 0.001;
 				//y -= 0.001;
 				
+				// La distance parcourue est aléatoire à chaque point
 				if(rand_x < 0.5)
 				{
 					x = x + Math.random()*0.001;
@@ -244,6 +279,5 @@ public class App {
 			System.out.println(("Envoyé !"));
 			scanner.close();
 		}
-		return 1;
 	}
 }

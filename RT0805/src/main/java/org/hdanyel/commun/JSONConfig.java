@@ -48,7 +48,7 @@ public class JSONConfig
             f_json = new JSONObject();
         }
     }
-    
+
     /**
      * Indique si un fichier existe.
      * @param nomFichier le nom du fichier
@@ -60,7 +60,7 @@ public class JSONConfig
 
         return f.exists();       
     }
-    
+
     /**
      * Retourne la valeur associée à une clef.
      * @param clef le nom de la clef
@@ -76,7 +76,7 @@ public class JSONConfig
     	temp = f_json.getString(clef);
     	return temp;
     }
-    
+
     /**
      * Retourne la valeur associée à une clef.
      * @param clef le nom de la clef
@@ -89,7 +89,7 @@ public class JSONConfig
     	temp = f_json.getInt(clef);
     	return temp;
     }
-    
+
     /**
      * Ajoute une valeur entière dans le json.
      * @param clef le nom de la clef

@@ -9,11 +9,20 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 import java.util.Calendar;
 
-
+/**
+ * Classe pour gérer les JWT, qui serviront à sécuriser l'API REST
+ */
 public class GestionJWT {
 
+    /**
+     * Génère un jeton JWT
+     * @param id l'id de l'utilisateur qui veut un jeton
+     * @param user le login de l'utilisateur
+     * @return un JWT contenant le login et l'id de l'utilisateur
+     */
     public static String generateToken(int id, String user){
             
+            //On calcule la date de création et d'expiration qui est fixée à 24 heures après
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();        
             calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -36,6 +45,11 @@ public class GestionJWT {
             return token;
         }
 
+    /**
+     * Méthode utilisée pour vérfier le JWT
+     * @param token le Jeton à vérifier
+     * Forme une exception si le jeton n'est pas valide
+     */
     public static void verifyToken(String token){
         DecodedJWT jwt = null;
         try {
@@ -50,6 +64,11 @@ public class GestionJWT {
         }  
     }
 
+    /**
+     * Utilisée pour décoder un jeton
+     * @param token Le jeton à décoder
+     * @return un JWT décodé que l'on peut lire
+     */
     public static DecodedJWT decodeToken(String token) {
         DecodedJWT jwt = null;
         try {

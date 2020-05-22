@@ -53,8 +53,6 @@ public class ClientHttp
             System.exit(-1);
         }
 
-
-        System.out.println("La méthode est de type "+Method);
         // Etablissement de la connexion
         HttpURLConnection connexion = null; 
         try { 
