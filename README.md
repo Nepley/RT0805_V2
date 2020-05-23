@@ -30,7 +30,8 @@ Si jamais il n'était pas possible de libérer le port 8080, rendez vous dans RT
  
 ```<httpConnector>
     <port>8080</port>
-</httpConnector>```
+</httpConnector>
+```
 
 en bas du fichier, changez alors le port pour un qui sera disponible.
 
