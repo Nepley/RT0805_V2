@@ -11,6 +11,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.Scanner;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 import java.lang.Thread;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +38,7 @@ public class App {
 		while(jwt == null)
 			jwt = connexionUtilisateur();
 
+		verifyToken(jwt);
 		System.out.println("Utilisateur connecté.");
 		Course(jwt);
 	}
@@ -230,8 +238,8 @@ public class App {
 			data_coord.put(coord);
 
 			//L'utilisateur choisi la durée de son activité, les points sont générés toute les secondes pour les tests
-			System.out.println("Combien de points voulez-vous générer ?");
-			while(nbpoint <= 0)
+			System.out.println("Combien de points voulez-vous générer ? Pas au dessus de 30");
+			while(nbpoint <= 0 || nbpoint > 30)
 			{
 				nbpoint = scanner.nextInt();
 			}
@@ -241,8 +249,6 @@ public class App {
 			{
 				System.out.println("Point numéro" + i);
 				Thread.sleep(1000);
-				//x += 0.001;
-				//y -= 0.001;
 				
 				// La distance parcourue est aléatoire à chaque point
 				if(rand_x < 0.5)
@@ -263,6 +269,7 @@ public class App {
 					y = y - Math.random()*0.001;
 				}
 
+				// On mets les données du point (position, date) dans le JSON
 				aujourdhui = new Date();
 				JSONObject coord_temp = new JSONObject();
 				coord_temp.put("coord_x", x);
@@ -270,8 +277,11 @@ public class App {
 				coord_temp.put("heure", formater_heure.format(aujourdhui));
 				data_coord.put(coord_temp);
 			}
+			
 			Thread.sleep(5);
 			System.out.println(("Activité finie, envoi.."));
+
+			// une fois l'activité fini, on met les dernières données de l'activité et on l'envoie au serveur
 			data_activite.put("pts", data_coord);
 			aujourdhui = new Date();
 			data_activite.put("fin", formater_heure.format(aujourdhui));
@@ -280,4 +290,23 @@ public class App {
 			scanner.close();
 		}
 	}
+
+	/**
+     * Méthode utilisée pour vérfier le JWT
+     * @param token le Jeton à vérifier
+     * Forme une exception si le jeton n'est pas valide
+     */
+    public static void verifyToken(String token){
+        DecodedJWT jwt = null;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("RT0805");
+            JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer("Tracking")
+                .build();
+            jwt = verifier.verify(token);
+        } catch (JWTVerificationException exception){
+            System.out.println("Erreur lors de la vérif" + exception);
+            System.exit(0);
+        }  
+    }
 }

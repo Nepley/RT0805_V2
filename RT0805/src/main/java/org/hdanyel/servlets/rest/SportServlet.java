@@ -19,17 +19,24 @@ import org.hdanyel.commun.JSONConfig;
 import org.hdanyel.commun.GestionUsers;
 import org.hdanyel.commun.GestionJWT;
 
+/**
+ * Servlet utilisée pour intéragir avec les sports/activités
+ */
 @WebServlet(value="/sports", name="sportServlet")
 public class SportServlet extends HttpServlet {
 
     /*
-    * Création d'un sport
+    * Création d'une activité
     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Nouvelle activité reçue");
+
+        //Puisqu'on lit un JSON, on lit tout le corps de la requête
         String corps = req.getReader().readLine();
         JSONObject requete = new JSONObject(corps);
+
+        //On identifie l'utilisateur à l'aide du JWT
         String jwt = requete.getString("jwt");
         GestionJWT.verifyToken(jwt);
         
@@ -37,10 +44,11 @@ public class SportServlet extends HttpServlet {
         String id_u = token.getClaim("id").asString();
         String user = token.getClaim("login").asString();
 
+        //On utilise un JSONConfig pour intéragir directement avec le JSON des activités.
         JSONConfig activites = new JSONConfig("donnees/activites.json");
 
         //On réassigne manuellement chaque champ à la nouvelle activité plutôt que de reprendre le JSON envoyé
-        //De cette façon, on est sûr que le JSON est conforme
+        //De cette façon, on est sûr que le JSON entré est conforme et lisible
         JSONObject new_sport = new JSONObject();
         new_sport.put("id", JSONConfig.MaxId(activites.getJSON().getJSONArray("sports")));
         new_sport.put("id_u", id_u);
@@ -63,6 +71,8 @@ public class SportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Demande de la liste des sports.");
+
+        //On lit le JSON contenant les sports
         JSONObject sports = new JSONConfig("donnees/sports.json").getJSON();
         resp.getWriter().println(sports.toString());
         System.out.println("Liste des sports envoyée");

@@ -1,32 +1,8 @@
 {"users": [
    {
-      "mdp": "098f6bcd4621d373cade4e832627b4f6",
-      "id": "1",
-      "type": "2",
-      "login": "Nep"
-   },
-   {
       "mdp": "21232f297a57a5a743894a0e4a801fc3",
-      "id": "8",
+      "id": "1",
       "type": "1",
       "login": "admin"
-   },
-   {
-      "mdp": "fba1957daf4381ea376c6b3a5c03fee5",
-      "id": "9",
-      "type": "2",
-      "login": "Neppu"
-   },
-   {
-      "mdp": "fba1957daf4381ea376c6b3a5c03fee5",
-      "id": "10",
-      "login": "Puyo",
-      "type": "2"
-   },
-   {
-      "mdp": "760061f6bfde75c29af12f252d4d3345",
-      "id": "11",
-      "login": "Robin",
-      "type": "2"
    }
 ]}

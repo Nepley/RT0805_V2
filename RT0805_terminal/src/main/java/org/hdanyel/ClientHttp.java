@@ -12,15 +12,17 @@ import java.net.URLConnection;
 
 import org.json.JSONObject;
 
-//import org.json.JSONObject;
-
+/**
+ * Classe utilisée pour communiquer en HTTP
+ * Ici utilisée pour communiquer avec l'API REST
+ */
 public class ClientHttp 
 {
 	/*
-	 * Intermediaire permettant d'envoyer des donn�es HTTP au Gestionnaire d'Utilisateurs
-	 * @param query la requ�te re�ue par le Back Office
-	 * @param but Objectif de la requ�te, permet de pointer la bonne URL
-	 * @return JSONObject renvoit la reponse trait�e correctement
+	 * Intermediaire permettant d'envoyer des données HTTP à l'API REST
+	 * @param query la requête reçue par le Back Office
+	 * @param but Objectif de la requête, permet de pointer la bonne URL
+	 * @return JSONObject renvoit la reponse traitée correctement
 	 */
 	public static JSONObject sendData(JSONObject query, String but)
 	{
@@ -67,7 +69,8 @@ public class ClientHttp
         } 
         
  
-        // Envoi de la requ�te
+        // La méthode est automatiquement fixée à POST si on utilise le writer
+        // Donc on s'assure que pour la méthode GET, on n'utilise pas le writer
         if(!Method.equals("GET")){
             try {
                 OutputStreamWriter writer = new OutputStreamWriter(connexion.getOutputStream());
@@ -80,7 +83,7 @@ public class ClientHttp
             }        
         }
  
-        // R�ception des donn�es depuis le serveur
+        // Réception des données depuis le serveur
         String donnees = ""; 
         try { 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connexion.getInputStream())); 
@@ -93,7 +96,6 @@ public class ClientHttp
             System.err.println("Erreur lors de la lecture de la réponse : " + e);
             System.exit(-1);
         }
-        // Affichage des donn�es re�ues
 
         JSONObject retour = new JSONObject(donnees);
         return retour;

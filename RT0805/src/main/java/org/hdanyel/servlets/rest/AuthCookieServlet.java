@@ -37,6 +37,7 @@ public class AuthCookieServlet extends HttpServlet {
         int id = GestionUsers.connexionUtilisateur(requete.getString("login"), requete.getString("mdp"));
         JSONObject reponse = new JSONObject();
         String status;
+        // connexionUtilisateur retourne 0 si la connexion s'est mal passée
         if(id > 0)
         {
             status = "OK";
