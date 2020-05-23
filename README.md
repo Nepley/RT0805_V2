@@ -10,7 +10,7 @@ Ce projet à été créé par :
 
 ## Description du projet
 
-Ceci est une application de tracking sportif, chaque utilisateur dispose d'un terminal qui lui permet, lorsque il commence une activté, de sélectionner ce qu'il veut faire et envoyer au serveur son parcours. 
+Ceci est une application de tracking sportif, chaque utilisateur dispose d'un terminal qui lui permet, lorsque il commence une activité, de sélectionner ce qu'il veut faire et envoyer au serveur son parcours. 
 L'utilsateur pourra ensuite allez voir ses performances sur le site web.
 Un système d'administration est aussi présent, attention aux petits malins.
 
