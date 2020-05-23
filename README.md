@@ -27,7 +27,8 @@ Et devez disposer de :
 - Le port 8080 disponible
 
 Si jamais il n'était pas possible de libérer le port 8080, rendez vous dans RT0805/pom.xml et cherchez les lignes
-> <httpConnector>
+ 
+<httpConnector>
     <port>8080</port>
 </httpConnector>
 
