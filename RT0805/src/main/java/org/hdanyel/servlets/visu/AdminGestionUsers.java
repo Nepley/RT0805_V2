@@ -70,6 +70,24 @@ public class AdminGestionUsers extends HttpServlet {
             //On vérifie que l'utilisateur est un admin
             if(user.getType().equals("1"))
             {
+                //On supprime ses activités
+                JSONConfig activities = new JSONConfig("donnees/activites.json");
+                JSONArray supp = activities.getJSON().getJSONArray("sports");
+                if(supp.length() != 0)
+                {
+                    for(int i =0; i < supp.length(); i++)
+                    {
+                        //On vérifie si l'utilisateur de l'activité est le même que l'id qu'on a récupéré
+                        JSONObject temp = new JSONObject(supp.get(i).toString());
+                        if(temp.getString("id_u").equals(id))
+                        {
+                            activities.supprimerDansTab("sports", temp.getString("id"));
+                        }
+                    }
+                    activities.sauvegarder();
+                }
+                
+
                 JSONConfig users = new JSONConfig("donnees/users.json");
                 //On le supprime et on renvoie 200
                 users.supprimerDansTab("users", id);
