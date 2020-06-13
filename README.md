@@ -93,3 +93,5 @@ Vous pouvez vous rendre sur le site web en vous rendant sur localhost:8080 (ou l
 Pour se faire, lancez le terminal et suivez les instructions, il vous demandera en premier lieu de vous inscrire, puisque vous n'avez pas de compte, vous pourrez ensuite simuler une activité 
 
 Pour voir votre activité, rendez vous sur le site Web, connectez vous avec le compte précédemment créé, et laissez vous guider par le site pour voir votre merveilleuse activité !
+
+S'il vous prend l'envie de supprimer des utilisateurs pour une raison ou une autre, sachez qu'un utilisateur "admin" (mdp:admin) est déjà présent.
