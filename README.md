@@ -25,6 +25,7 @@ Et devez disposer de :
 - Un navigateur graphique
 - Un terminal pour lancer les programmes
 - Le port 8080 disponible
+- Une connexion à Internet depuis la machine où le projet est éxécuté
 
 Si jamais il n'était pas possible de libérer le port 8080, rendez vous dans RT0805/pom.xml et cherchez les lignes
  
@@ -72,6 +73,10 @@ Pour lancer la partie web, placez vous d'abord dans son dossier (RT0805) et avan
 
 Ensuite pour lancer faire tourner le tout sous Jetty, faites :
 > mvn jetty:run
+
+**/!\ Si vous voulez faire tourner le site Web avec la méthode traditionnelle (en téléchargeant le zip de Jetty), assurez vous de :
+- copier le dossier “RT0805/donnees” dans le répertoire de Jetty
+- nommer le .war de sortie “ROOT.war"**
 
 ### Terminal
 Pour lancer le terminal, placez vous d'abord dans le dossier du terminal (RT0805_terminal) et avant le premier lancement, faites :
